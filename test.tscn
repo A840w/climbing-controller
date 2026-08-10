@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://bcjj1uu44pdbc"]
+
+[ext_resource type="Material" uid="uid://cxequ7mobms3d" path="res://materials/texture_06_black.tres" id="1_6uqi0"]
+[ext_resource type="PackedScene" uid="uid://bqiu2mvy5dkel" path="res://player.tscn" id="1_37kl0"]
+[ext_resource type="Material" uid="uid://dhmcp8j8np8p0" path="res://materials/texture_03_white.tres" id="3_6uqi0"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_6uqi0"]
+
+[sub_resource type="Sky" id="Sky_6uqi0"]
+sky_material = SubResource("PhysicalSkyMaterial_6uqi0")
+
+[sub_resource type="Environment" id="Environment_ppyta"]
+background_mode = 2
+sky = SubResource("Sky_6uqi0")
+glow_enabled = true
+
+[node name="Node3D" type="Node3D" unique_id=550919651]
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1088878005]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=898836775]
+environment = SubResource("Environment_ppyta")
+
+[node name="floor" type="CSGBox3D" parent="." unique_id=2130684567]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5120573, 0)
+material_override = ExtResource("1_6uqi0")
+use_collision = true
+size = Vector3(40, 1, 40)
+
+[node name="player" parent="." unique_id=334747435 instance=ExtResource("1_37kl0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.0045786, 1.850724, -0.41326904)
+
+[node name="wall" type="CSGBox3D" parent="." unique_id=584763252]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.965307, 20.172659)
+material_override = ExtResource("3_6uqi0")
+use_collision = true
+size = Vector3(40, 10, 0.5)
+
+[node name="wall2" type="CSGBox3D" parent="." unique_id=33520837]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.965307, -19.711433)
+material_override = ExtResource("3_6uqi0")
+use_collision = true
+size = Vector3(40, 10, 0.5)
+
+[node name="wall3" type="CSGBox3D" parent="." unique_id=335325063]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 20.046621, 4.965307, 0.1721611)
+material_override = ExtResource("3_6uqi0")
+use_collision = true
+size = Vector3(40, 10, 0.5)
+
+[node name="wall4" type="CSGBox3D" parent="." unique_id=314610399]
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -19.669718, 4.965307, 0.1721611)
+material_override = ExtResource("3_6uqi0")
+use_collision = true
+size = Vector3(40, 10, 0.5)

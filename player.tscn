@@ -1,0 +1,160 @@
+[gd_scene format=3 uid="uid://bqiu2mvy5dkel"]
+
+[ext_resource type="Script" uid="uid://ce1r5sdwdroq4" path="res://player/player.gd" id="1_2hs0m"]
+[ext_resource type="Script" uid="uid://cm8yiioim1yko" path="res://player/state/idle.gd" id="2_1jxqw"]
+[ext_resource type="Script" uid="uid://bkp6shdegap87" path="res://player/state/walk.gd" id="3_dw050"]
+[ext_resource type="Script" uid="uid://7ra5f6bn7eeu" path="res://player/state/fall.gd" id="4_b26j0"]
+[ext_resource type="Script" uid="uid://c6pv3ro6ox68y" path="res://player/state/sprint.gd" id="5_ivps1"]
+[ext_resource type="Script" uid="uid://b74ueklp56dfi" path="res://player/state/death.gd" id="5_n7ghd"]
+[ext_resource type="Script" uid="uid://cewatnys22fj1" path="res://player/state_machine.gd" id="6_nvl01"]
+[ext_resource type="Script" uid="uid://nrh1tl10dr8h" path="res://player/state/crouch.gd" id="6_urp6f"]
+[ext_resource type="LabelSettings" uid="uid://cjtaq8j2qshas" path="res://resources/label/chakra_label.tres" id="7_1jxqw"]
+[ext_resource type="Script" uid="uid://hn6smmk5j6xb" path="res://player/state/jump.gd" id="8_bwjto"]
+[ext_resource type="FontFile" uid="uid://hvyuwliijobe" path="res://font/Chakra_Petch/ChakraPetch-Bold.ttf" id="8_dw050"]
+[ext_resource type="Script" uid="uid://dgen80n84qxo2" path="res://player/component/mouse_component.gd" id="9_b26j0"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8lcvq"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_8lcvq"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_b26j0"]
+font = ExtResource("8_dw050")
+font_size = 21
+font_color = Color(0.45928943, 0.5766141, 0.9893107, 1)
+
+[node name="player" type="CharacterBody3D" unique_id=334747435 node_paths=PackedStringArray("mouse_component", "PlayerState_label", "heading_label", "pos_label")]
+script = ExtResource("1_2hs0m")
+mouse_component = NodePath("Components/MouseComponent")
+PlayerState_label = NodePath("Ui/Control/VBoxContainer/PlayerState/state")
+heading_label = NodePath("Ui/Control/VBoxContainer/HeadingDirection/directions")
+pos_label = NodePath("Ui/Control/VBoxContainer/PositonCoord/dr")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1921364800]
+shape = SubResource("CapsuleShape3D_8lcvq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=627522174]
+visible = false
+mesh = SubResource("CapsuleMesh_8lcvq")
+
+[node name="head" type="Node3D" parent="." unique_id=1914627128]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1107796, 0)
+
+[node name="CameraPivot" type="Node3D" parent="head" unique_id=422066209]
+
+[node name="Camera3D" type="Camera3D" parent="head/CameraPivot" unique_id=527418969]
+
+[node name="HSM" type="LimboHSM" parent="." unique_id=1919628083]
+unique_name_in_owner = true
+
+[node name="Death" type="LimboState" parent="HSM" unique_id=1425495517]
+unique_name_in_owner = true
+script = ExtResource("5_n7ghd")
+
+[node name="GroundedHSM" type="LimboHSM" parent="HSM" unique_id=443479719]
+
+[node name="Idle" type="LimboState" parent="HSM/GroundedHSM" unique_id=308266262 node_paths=PackedStringArray("player")]
+unique_name_in_owner = true
+script = ExtResource("2_1jxqw")
+player = NodePath("../../..")
+
+[node name="Walk" type="LimboState" parent="HSM/GroundedHSM" unique_id=1600518051 node_paths=PackedStringArray("player")]
+unique_name_in_owner = true
+script = ExtResource("3_dw050")
+player = NodePath("../../..")
+
+[node name="Sprint" type="LimboState" parent="HSM/GroundedHSM" unique_id=1993084751]
+script = ExtResource("5_ivps1")
+
+[node name="Crouch" type="LimboState" parent="HSM/GroundedHSM" unique_id=819871024]
+script = ExtResource("6_urp6f")
+
+[node name="AirHSM" type="LimboHSM" parent="HSM" unique_id=1145639375]
+
+[node name="fall" type="LimboState" parent="HSM/AirHSM" unique_id=1341739375 node_paths=PackedStringArray("player")]
+unique_name_in_owner = true
+script = ExtResource("4_b26j0")
+player = NodePath("../../..")
+
+[node name="jump" type="LimboState" parent="HSM/AirHSM" unique_id=229143039]
+script = ExtResource("8_bwjto")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1295608754 node_paths=PackedStringArray("player", "hsm", "groundedHSM", "airHSM", "idle_state", "walk_state", "fall_state", "sprint_state", "crouch_state", "jump_state")]
+unique_name_in_owner = true
+script = ExtResource("6_nvl01")
+player = NodePath("..")
+hsm = NodePath("../HSM")
+groundedHSM = NodePath("../HSM/GroundedHSM")
+airHSM = NodePath("../HSM/AirHSM")
+idle_state = NodePath("../HSM/GroundedHSM/Idle")
+walk_state = NodePath("../HSM/GroundedHSM/Walk")
+fall_state = NodePath("../HSM/AirHSM/fall")
+sprint_state = NodePath("../HSM/GroundedHSM/Sprint")
+crouch_state = NodePath("../HSM/GroundedHSM/Crouch")
+jump_state = NodePath("../HSM/AirHSM/jump")
+
+[node name="Ui" type="CanvasLayer" parent="." unique_id=521590104]
+
+[node name="Control" type="Control" parent="Ui" unique_id=17617765]
+layout_mode = 3
+anchor_left = 0.72454864
+anchor_right = 0.9991319
+anchor_bottom = 0.4246543
+offset_left = 0.3199463
+offset_bottom = -0.1760025
+grow_horizontal = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Ui/Control" unique_id=112917238]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.21900001
+anchor_bottom = 0.18200001
+offset_right = -52.856003
+offset_bottom = -10.050003
+metadata/_edit_use_anchors_ = true
+
+[node name="PlayerState" type="HBoxContainer" parent="Ui/Control/VBoxContainer" unique_id=449498906]
+layout_mode = 2
+
+[node name="player" type="Label" parent="Ui/Control/VBoxContainer/PlayerState" unique_id=1129486471]
+layout_mode = 2
+text = "PlayerState:"
+label_settings = ExtResource("7_1jxqw")
+
+[node name="state" type="Label" parent="Ui/Control/VBoxContainer/PlayerState" unique_id=1188212727]
+layout_mode = 2
+text = "grounded"
+label_settings = SubResource("LabelSettings_b26j0")
+
+[node name="HeadingDirection" type="HBoxContainer" parent="Ui/Control/VBoxContainer" unique_id=35287271]
+layout_mode = 2
+
+[node name="heading" type="Label" parent="Ui/Control/VBoxContainer/HeadingDirection" unique_id=1415485160]
+layout_mode = 2
+text = "Heading:"
+label_settings = ExtResource("7_1jxqw")
+
+[node name="directions" type="Label" parent="Ui/Control/VBoxContainer/HeadingDirection" unique_id=238842857]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_b26j0")
+
+[node name="PositonCoord" type="HBoxContainer" parent="Ui/Control/VBoxContainer" unique_id=709218344]
+layout_mode = 2
+
+[node name="pos" type="Label" parent="Ui/Control/VBoxContainer/PositonCoord" unique_id=280111641]
+layout_mode = 2
+text = "POS:"
+label_settings = ExtResource("7_1jxqw")
+
+[node name="dr" type="Label" parent="Ui/Control/VBoxContainer/PositonCoord" unique_id=1834843673]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_b26j0")
+
+[node name="Components" type="Node" parent="." unique_id=587773961]
+
+[node name="MouseComponent" type="Node" parent="Components" unique_id=1107780685 node_paths=PackedStringArray("camera_pivot", "player")]
+unique_name_in_owner = true
+script = ExtResource("9_b26j0")
+mouse_sensitivity = 100
+camera_pivot = NodePath("../../head/CameraPivot")
+player = NodePath("../..")
