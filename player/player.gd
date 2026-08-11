@@ -57,7 +57,7 @@ func _physics_process(delta: float) -> void:
 	# Capture horizontal input relative to world/camera axes
 	var input_dir := Input.get_vector("left", "right", "front", "back")
 	move_dir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	pos_label.text = str(self.velocity)
+	pos_label.text = "%.1f" % move_dir.length()
 	move_and_slide()
 
 #endregion
