@@ -1,7 +1,7 @@
 extends LimboState
 
 @export var player: Player
-
+@export var movement : MovementComponent
 func _enter() -> void:
 	pass
 
@@ -18,8 +18,9 @@ func _update(delta: float) -> void:
 		return
 
 	# Apply ground velocity
-	player.velocity.x = player.move_dir.x * player.speed
-	player.velocity.z = player.move_dir.z * player.speed
+	var speed =  movement.walk_speed
+	movement.apply_ground_movement(player.move_dir, delta, speed)
+	movement.apply_friction(delta)
 
 	if Input.is_action_just_pressed("jump"):
 		player.velocity.y = player.jump_velocity

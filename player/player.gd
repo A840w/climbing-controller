@@ -8,6 +8,7 @@ extends CharacterBody3D
 
 @export_subgroup("Components")
 @export var mouse_component: MouseComponent
+@onready var movement_component : MovementComponent
 @onready var state_machine: StateMachine = %StateMachine
 
 @export_subgroup("labels")
@@ -56,12 +57,13 @@ func _physics_process(delta: float) -> void:
 	# Capture horizontal input relative to world/camera axes
 	var input_dir := Input.get_vector("left", "right", "front", "back")
 	move_dir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-
+	pos_label.text = str(self.velocity)
 	move_and_slide()
 
 #endregion
 
 #region state machine and labels 
+
 # func _on_active_state_changed(current: LimboState, _previous: LimboState) -> void:
 # 	# Use get_state_name() or current.name
 # 	PlayerState_label.text = current.get_name()
