@@ -20,6 +20,8 @@ extends CharacterBody3D
 #region internal variables
 var gravity: float = ProjectSettings.get_setting("physics/3d/default_gravity")
 var move_dir: Vector3 = Vector3.ZERO
+var current_direction: Vector3 = Vector3.FORWARD
+var current_heading: String = ""
 #endregion
 
  #region movement related functiond 
@@ -53,6 +55,13 @@ func _ready() -> void:
 	state_machine._update_state_label() # Set initial text
 
 
+func _process(delta: float) -> void:
+
+	current_direction = -global_transform.origin
+	current_direction.y = 0
+	current_direction = current_direction.normalized()
+	update_heading_display()
+
 func _physics_process(delta: float) -> void:
 	# Capture horizontal input relative to world/camera axes
 	var input_dir := Input.get_vector("left", "right", "front", "back")
@@ -63,6 +72,16 @@ func _physics_process(delta: float) -> void:
 #endregion
 
 #region state machine and labels 
+
+func update_heading_display() -> void:
+	if current_direction.length() > 0.1:  # Avoid zero vector
+		var heading = CardinalSystem.get_continuous_heading(current_direction)
+		# If you have a label reference:
+		heading_label.text = heading
+		#print("Direction: ", current_direction, " Heading: ", heading)
+	else:
+		heading_label.text = "---"
+
 
 # func _on_active_state_changed(current: LimboState, _previous: LimboState) -> void:
 # 	# Use get_state_name() or current.name

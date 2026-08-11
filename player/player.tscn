@@ -107,7 +107,7 @@ anchors_preset = 0
 
 [node name="ColorRect" type="ColorRect" parent="Ui/Control" unique_id=1072848192]
 layout_mode = 0
-offset_right = 317.0
+offset_right = 332.0
 offset_bottom = 135.0
 color = Color(0.09803922, 0.09803922, 0.09803922, 0.45882353)
 
@@ -143,6 +143,7 @@ label_settings = ExtResource("7_1jxqw")
 
 [node name="directions" type="Label" parent="Ui/Control/VBoxContainer/HeadingDirection" unique_id=238842857]
 layout_mode = 2
+text = "---"
 label_settings = SubResource("LabelSettings_b26j0")
 
 [node name="PositonCoord" type="HBoxContainer" parent="Ui/Control/VBoxContainer" unique_id=709218344]
