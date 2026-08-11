@@ -66,18 +66,21 @@ script = ExtResource("3_dw050")
 player = NodePath("../../..")
 movement = NodePath("../../../Components/MovementComponent")
 
-[node name="Sprinting" type="LimboState" parent="HSM/GroundedHSM" unique_id=1993084751]
+[node name="Sprinting" type="LimboState" parent="HSM/GroundedHSM" unique_id=1993084751 node_paths=PackedStringArray("player", "movement")]
 script = ExtResource("5_ivps1")
+player = NodePath("../../..")
+movement = NodePath("../../../Components/MovementComponent")
 
 [node name="Crouching" type="LimboState" parent="HSM/GroundedHSM" unique_id=819871024]
 script = ExtResource("6_urp6f")
 
 [node name="AirHSM" type="LimboHSM" parent="HSM" unique_id=1145639375]
 
-[node name="falling" type="LimboState" parent="HSM/AirHSM" unique_id=1341739375 node_paths=PackedStringArray("player")]
+[node name="falling" type="LimboState" parent="HSM/AirHSM" unique_id=1341739375 node_paths=PackedStringArray("player", "movement")]
 unique_name_in_owner = true
 script = ExtResource("4_b26j0")
 player = NodePath("../../..")
+movement = NodePath("../../../Components/MovementComponent")
 
 [node name="jump" type="LimboState" parent="HSM/AirHSM" unique_id=229143039]
 script = ExtResource("8_bwjto")
@@ -104,9 +107,9 @@ anchors_preset = 0
 
 [node name="ColorRect" type="ColorRect" parent="Ui/Control" unique_id=1072848192]
 layout_mode = 0
-offset_right = 360.0
+offset_right = 317.0
 offset_bottom = 135.0
-color = Color(0.09803922, 0.09803922, 0.09803922, 0.14117648)
+color = Color(0.09803922, 0.09803922, 0.09803922, 0.45882353)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Ui/Control" unique_id=112917238]
 layout_mode = 1
@@ -127,7 +130,7 @@ label_settings = ExtResource("7_1jxqw")
 
 [node name="state" type="Label" parent="Ui/Control/VBoxContainer/PlayerState" unique_id=1188212727]
 layout_mode = 2
-text = "grounded"
+text = "grounded | walking"
 label_settings = SubResource("LabelSettings_b26j0")
 
 [node name="HeadingDirection" type="HBoxContainer" parent="Ui/Control/VBoxContainer" unique_id=35287271]

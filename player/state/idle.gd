@@ -15,6 +15,11 @@ func _update(delta: float) -> void:
 	if player.move_dir != Vector3.ZERO:
 		dispatch(&"start_moving")
 		return
+	
+	if Input.is_action_pressed("sprint"):
+		dispatch(&"start_sprinting")
+		return
+
 
 	if Input.is_action_just_pressed("jump"):
 		movement.execute_jump()

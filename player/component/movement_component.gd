@@ -32,6 +32,7 @@ func apply_air_movement(input_dir: Vector3, delta: float) -> void:
     var target_velocity = input_dir * walk_speed
     player.velocity.x = lerp(player.velocity.x, target_velocity.x, air_control * delta)
     player.velocity.z = lerp(player.velocity.z, target_velocity.z, air_control * delta)
+    
 
 func execute_jump() -> void:
     #if player.is_on_floor():
