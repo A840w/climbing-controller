@@ -9,6 +9,7 @@ const float NORMAL_BACK_FADE_ANGLE_MAX = 3.14159265359;
 const float NORMAL_BACK_FADE_ANGLE_EPSILON = 0.0001;
 
 uniform float depth_bias = 0.0;
+uniform int line_width_mode = 0;
 uniform float back_fade_start = 1.74532925199;
 uniform float back_fade_transition = 0.34906585040;
 
@@ -53,6 +54,8 @@ float normal_fade(vec3 normal, vec3 position) {
 void vertex() {
   mat4 view_from_local = VIEW_MATRIX * MODEL_MATRIX;
   mat4 clip_from_local = PROJECTION_MATRIX * view_from_local;
+  vec3 view_a = (view_from_local * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
+  vec3 view_b = (view_from_local * vec4(1.0, 0.0, 0.0, 1.0)).xyz;
   vec4 clip_a = clip_from_local * vec4(0.0, 0.0, 0.0, 1.0);
   vec4 clip_b = clip_from_local * vec4(1.0, 0.0, 0.0, 1.0);
   vec3 line_center = (view_from_local * vec4(0.5, 0.0, 0.0, 1.0)).xyz;
@@ -72,12 +75,14 @@ void vertex() {
     float clip_t = clip_near_plane_t(clip_a, clip_b);
     if (clip_t > 0.0) {
       clip_a = mix(clip_a, clip_b, clip_t);
+      view_a = mix(view_a, view_b, clip_t);
       distance_a = mix(distance_a, distance_b, clip_t);
     }
 
     clip_t = clip_near_plane_t(clip_b, clip_a);
     if (clip_t > 0.0) {
       clip_b = mix(clip_b, clip_a, clip_t);
+      view_b = mix(view_b, view_a, clip_t);
       distance_b = mix(distance_b, distance_a, clip_t);
     }
 
@@ -93,18 +98,28 @@ void vertex() {
       float width = max(INSTANCE_CUSTOM.x, 0.0);
       path_distance = mix(distance_a, distance_b, along);
 
-      if (width > 0.0 && width < 1.0) {
-        line_color.a *= width;
-        width = 1.0;
+      if (line_width_mode == 0) {
+        if (width > 0.0 && width < 1.0) {
+          line_color.a *= width;
+          width = 1.0;
+        }
+
+        vec2 y_basis = normalize(screen_delta);
+        vec2 x_basis = vec2(-y_basis.y, y_basis.x);
+        vec4 clip = mix(clip_a, clip_b, along);
+        vec2 screen = mix(screen_a, screen_b, along) + x_basis * side * width;
+        vec2 ndc = screen / VIEWPORT_SIZE * 2.0 - 1.0;
+        POSITION = vec4(ndc * clip.w, apply_depth_bias(clip, depth_bias), clip.w);
+      } else {
+        vec3 view_position = mix(view_a, view_b, along);
+        vec3 view_side = cross(view_b - view_a, -view_position);
+        if (dot(view_side, view_side) < SCREEN_EPSILON) {
+          POSITION = vec4(0.0, 0.0, 2.0, 1.0);
+        } else {
+          vec4 clip = PROJECTION_MATRIX * vec4(view_position + normalize(view_side) * side * width, 1.0);
+          POSITION = vec4(clip.xy, apply_depth_bias(clip, depth_bias), clip.w);
+        }
       }
-
-      vec2 y_basis = normalize(screen_delta);
-      vec2 x_basis = vec2(-y_basis.y, y_basis.x);
-      vec4 clip = mix(clip_a, clip_b, along);
-      vec2 screen = mix(screen_a, screen_b, along) + x_basis * side * width;
-      vec2 ndc = screen / VIEWPORT_SIZE * 2.0 - 1.0;
-
-      POSITION = vec4(ndc * clip.w, apply_depth_bias(clip, depth_bias), clip.w);
     }
   }
 }

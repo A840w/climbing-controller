@@ -16,6 +16,7 @@
 [ext_resource type="Script" uid="uid://d2k7v2n8j6e3q" path="res://player/component/movement_component.gd" id="13_urp6f"]
 [ext_resource type="Script" uid="uid://dxn8naauoirhc" path="res://player/component/CameraJuice.gd" id="14_kb6p2"]
 [ext_resource type="Script" uid="uid://djuo5q1j1d2p7" path="res://player/state/base_states.gd" id="15_wodsf"]
+[ext_resource type="Script" uid="uid://2j6veta3q0uf" path="res://addons/debug_draw/debug_draw_3d.gd" id="17_tqiix"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_8lcvq"]
 
@@ -28,19 +29,20 @@ font = ExtResource("8_dw050")
 font_size = 21
 font_color = Color(0.45928943, 0.5766141, 0.9893107, 1)
 
-[node name="player" type="CharacterBody3D" unique_id=334747435 node_paths=PackedStringArray("mouse_component", "PlayerState_label", "heading_label", "pos_label")]
+[node name="player" type="CharacterBody3D" unique_id=334747435 node_paths=PackedStringArray("mouse_component", "CameraJuice", "DebugDraw", "PlayerState_label", "heading_label", "pos_label")]
 script = ExtResource("1_2hs0m")
 mouse_component = NodePath("Components/MouseComponent")
+CameraJuice = NodePath("Components/CameraJuiceComponent")
+DebugDraw = NodePath("DebugDraw3D")
 PlayerState_label = NodePath("Ui/Control/VBoxContainer/PlayerState/state")
 heading_label = NodePath("Ui/Control/VBoxContainer/HeadingDirection/directions")
 pos_label = NodePath("Ui/Control/VBoxContainer/PositonCoord/dr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1921364800]
 shape = SubResource("CapsuleShape3D_8lcvq")
-debug_color = Color(0.43137255, 0.78431374, 0.98039216, 0.5294118)
+debug_color = Color(0.38687247, 0.8875706, 0.9999997, 0.5058824)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=627522174]
-visible = false
 material_override = ExtResource("2_32hag")
 mesh = SubResource("CapsuleMesh_8lcvq")
 
@@ -68,11 +70,12 @@ script = ExtResource("2_1jxqw")
 player = NodePath("../../..")
 movement = NodePath("../../../Components/MovementComponent")
 
-[node name="Walking" type="LimboState" parent="HSM/GroundedHSM" unique_id=1600518051 node_paths=PackedStringArray("player", "movement")]
+[node name="Walking" type="LimboState" parent="HSM/GroundedHSM" unique_id=1600518051 node_paths=PackedStringArray("player", "movement", "CameraJuice")]
 unique_name_in_owner = true
 script = ExtResource("3_dw050")
 player = NodePath("../../..")
 movement = NodePath("../../../Components/MovementComponent")
+CameraJuice = NodePath("../../../Components/CameraJuiceComponent")
 
 [node name="Sprinting" type="LimboState" parent="HSM/GroundedHSM" unique_id=1993084751 node_paths=PackedStringArray("player", "movement")]
 script = ExtResource("5_ivps1")
@@ -171,6 +174,7 @@ label_settings = SubResource("LabelSettings_b26j0")
 [node name="MouseComponent" type="Node" parent="Components" unique_id=1107780685 node_paths=PackedStringArray("camera_pivot", "player")]
 unique_name_in_owner = true
 script = ExtResource("9_b26j0")
+mouse_sensitivity = 100
 camera_pivot = NodePath("../../head/CameraPivot")
 player = NodePath("../..")
 
@@ -179,10 +183,18 @@ unique_name_in_owner = true
 script = ExtResource("13_urp6f")
 player = NodePath("../..")
 
-[node name="CameraJuiceComponent" type="Node" parent="Components" unique_id=1096301191]
+[node name="CameraJuiceComponent" type="Node" parent="Components" unique_id=1096301191 node_paths=PackedStringArray("camera_pivot", "Movement")]
 script = ExtResource("14_kb6p2")
+camera_pivot = NodePath("../../head/CameraPivot")
+Movement = NodePath("../MovementComponent")
+walk_boobs_speed = 10.0
 
-[node name="BaseStates" type="LimboState" parent="." unique_id=73938601 node_paths=PackedStringArray("player", "movement")]
+[node name="BaseStates" type="LimboState" parent="." unique_id=73938601 node_paths=PackedStringArray("player", "movement", "CameraJuice")]
 script = ExtResource("15_wodsf")
 player = NodePath("..")
 movement = NodePath("../Components/MovementComponent")
+CameraJuice = NodePath("../Components/CameraJuiceComponent")
+
+[node name="DebugDraw3D" type="Node3D" parent="." unique_id=1694217713]
+script = ExtResource("17_tqiix")
+metadata/_custom_type_script = "uid://2j6veta3q0uf"

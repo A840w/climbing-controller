@@ -2,7 +2,7 @@
 
 [ext_resource type="Material" uid="uid://cxequ7mobms3d" path="res://materials/texture_06_black.tres" id="1_6uqi0"]
 [ext_resource type="PackedScene" uid="uid://bqiu2mvy5dkel" path="res://player/player.tscn" id="1_37kl0"]
-[ext_resource type="Material" uid="uid://dhmcp8j8np8p0" path="res://materials/texture_03_white.tres" id="3_6uqi0"]
+[ext_resource type="Material" uid="uid://3j4x2h0bup2t" path="res://materials/texture_04_white.tres" id="4_ppyta"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_6uqi0"]
 
@@ -12,16 +12,30 @@ sky_material = SubResource("PhysicalSkyMaterial_6uqi0")
 [sub_resource type="Environment" id="Environment_ppyta"]
 background_mode = 2
 sky = SubResource("Sky_6uqi0")
+tonemap_mode = 3
 glow_enabled = true
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_ykrsh"]
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_ppyta"]
+exposure_sensitivity = 50.0
+frustum_focus_distance = 1675.43
+frustum_focal_length = 65.0
+frustum_near = 0.001
+frustum_far = 4000.1
+exposure_aperture = 17.0
+exposure_shutter_speed = 50.0
 
 [node name="Node3D" type="Node3D" unique_id=550919651]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1088878005]
-transform = Transform3D(0.42934802, 0.04174164, -0.902174, 0.888574, 0.1591549, 0.4302396, 0.1615443, -0.9863708, 0.03124234, 0, 0, 0)
+transform = Transform3D(0.48980534, 0.052654404, -0.8702401, 0.8567345, 0.15588498, 0.49163625, 0.16154423, -0.98637074, 0.031242419, 0, 0, 0)
 shadow_enabled = true
+directional_shadow_blend_splits = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=898836775]
 environment = SubResource("Environment_ppyta")
+camera_attributes = SubResource("CameraAttributesPhysical_ykrsh")
 
 [node name="floor" type="CSGBox3D" parent="." unique_id=2130684567]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5120573, 0)
@@ -29,29 +43,53 @@ material_override = ExtResource("1_6uqi0")
 use_collision = true
 size = Vector3(100, 1, 100)
 
-[node name="player" parent="." unique_id=334747435 instance=ExtResource("1_37kl0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3.882, 0)
+[node name="wall" type="Node3D" parent="." unique_id=905202555]
 
-[node name="wall" type="CSGBox3D" parent="." unique_id=584763252]
+[node name="wall" type="CSGBox3D" parent="wall" unique_id=584763252]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.965, 50)
-material_override = ExtResource("3_6uqi0")
+material_override = ExtResource("1_6uqi0")
 use_collision = true
 size = Vector3(100, 10, 0.5)
 
-[node name="wall2" type="CSGBox3D" parent="." unique_id=33520837]
+[node name="wall2" type="CSGBox3D" parent="wall" unique_id=33520837]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 4.965, -50)
-material_override = ExtResource("3_6uqi0")
+material_override = ExtResource("1_6uqi0")
 use_collision = true
 size = Vector3(100, 10, 0.5)
 
-[node name="wall3" type="CSGBox3D" parent="." unique_id=335325063]
+[node name="wall3" type="CSGBox3D" parent="wall" unique_id=335325063]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, 50, 4.965, 0.172)
-material_override = ExtResource("3_6uqi0")
+material_override = ExtResource("1_6uqi0")
 use_collision = true
 size = Vector3(100, 10, 0.5)
 
-[node name="wall4" type="CSGBox3D" parent="." unique_id=314610399]
+[node name="wall4" type="CSGBox3D" parent="wall" unique_id=314610399]
 transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -50, 4.965, 0.172)
-material_override = ExtResource("3_6uqi0")
+material_override = ExtResource("1_6uqi0")
 use_collision = true
 size = Vector3(100, 10, 0.5)
+
+[node name="box" type="CSGBox3D" parent="." unique_id=2105811797]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.669817, 0.9529278, 0)
+material_override = ExtResource("4_ppyta")
+use_collision = true
+size = Vector3(2, 2, 2)
+
+[node name="box3" type="CSGBox3D" parent="." unique_id=1941910289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.411144, 0.9529278, 0)
+material_override = ExtResource("4_ppyta")
+use_collision = true
+size = Vector3(2, 2, 2)
+
+[node name="box2" type="CSGBox3D" parent="." unique_id=1174671768]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.669817, 0.4895773, -2.4429126)
+material_override = ExtResource("4_ppyta")
+use_collision = true
+
+[node name="player" parent="." unique_id=334747435 instance=ExtResource("1_37kl0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2050276, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=98978828]
+transform = Transform3D(0.71630305, -0.38004318, 0.58521545, 0, 0.8386707, 0.5446389, -0.6977893, -0.3901265, 0.60074234, 8.293989, 10.76333, 10.685453)
+attributes = SubResource("CameraAttributesPhysical_ppyta")
+fov = 20.919819

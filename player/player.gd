@@ -9,7 +9,9 @@ extends CharacterBody3D
 @export_subgroup("Components")
 @export var mouse_component: MouseComponent
 @onready var movement_component : MovementComponent
+#@export var CameraJuice : CameraJuiceComponent
 @onready var state_machine: StateMachine = %StateMachine
+
 
 @export_subgroup("labels")
 @export var PlayerState_label: Label
@@ -24,27 +26,14 @@ var current_direction: Vector3 = Vector3.FORWARD
 var current_heading: String = ""
 #endregion
 
- #region movement related functiond 
+ #region movement related functiond
 func _unhandled_input(event)->void:
 	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventKey:
 			if event.is_action_pressed("ui_cancel"):
 				get_tree().quit()
-		 
-		if event is InputEventMouseButton:
-			if event.button_index == 1:
-				Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
-		
-		return
+
 	
-	if event is InputEventKey:
-		if event.is_action_pressed("ui_cancel"):
-			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
-			
-		return
-	
-	if event is InputEventMouseMotion:
-		mouse_component.aim_look(event)
 
 
 func _ready() -> void:
@@ -63,6 +52,8 @@ func _process(delta: float) -> void:
 	update_heading_display()
 
 func _physics_process(delta: float) -> void:
+
+
 	# Capture horizontal input relative to world/camera axes
 	var input_dir := Input.get_vector("left", "right", "front", "back")
 	move_dir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
@@ -71,7 +62,7 @@ func _physics_process(delta: float) -> void:
 
 #endregion
 
-#region state machine and labels 
+#region state machine and labels
 
 func update_heading_display() -> void:
 	if current_direction.length() > 0.1:  # Avoid zero vector
@@ -103,7 +94,7 @@ func update_heading_display() -> void:
 # 	var main_state : LimboState = state_machine.hsm.get_active_state()
 # 	## lowest level sub HSM
 # 	var leaf_state : LimboState = state_machine.hsm.get_leaf_state()
-	
+
 # 	var main_name : String = _clean_name(main_state.get_name()) if main_state else "None"
 # 	var leaf_name : String = _clean_name(leaf_state.get_name()) if leaf_state else "None"
 # 	PlayerState_label.text = "PlayerState: %s | %s" % [main_name, leaf_name]

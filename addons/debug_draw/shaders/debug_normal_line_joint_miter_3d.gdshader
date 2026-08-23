@@ -4,7 +4,9 @@ render_mode unshaded, cull_disabled, blend_mix, depth_draw_always;
 #include "debug_normal_line_joint_3d_common.gdshaderinc"
 
 void vertex() {
-  mat4 clip_from_local = PROJECTION_MATRIX * VIEW_MATRIX * MODEL_MATRIX;
+  mat4 view_from_local = VIEW_MATRIX * MODEL_MATRIX;
+  mat4 clip_from_local = PROJECTION_MATRIX * view_from_local;
+  vec3 view_b = (view_from_local * vec4(0.0, 0.0, 0.0, 1.0)).xyz;
   vec4 clip_a = clip_from_local * vec4(1.0, 0.0, 0.0, 1.0);
   vec4 clip_b = clip_from_local * vec4(0.0, 0.0, 0.0, 1.0);
   vec4 clip_c = clip_from_local * vec4(0.0, 1.0, 0.0, 1.0);
@@ -32,9 +34,11 @@ void vertex() {
     } else {
       float width = max(INSTANCE_CUSTOM.x, 0.0);
 
-      if (width > 0.0 && width < 1.0) {
+      if (line_width_mode == 0 && width > 0.0 && width < 1.0) {
         line_color.a *= width;
         width = 1.0;
+      } else if (line_width_mode != 0) {
+        width = resolve_joint_width(width, clip_b, view_b, VIEWPORT_SIZE, PROJECTION_MATRIX);
       }
 
       int vertex_index = int(VERTEX.x);

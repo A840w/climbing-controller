@@ -4,6 +4,7 @@ const float DEPTH_BIAS_EPSILON = 0.000488;
 const float SCREEN_EPSILON = 0.0001;
 
 uniform float depth_bias = 0.0;
+uniform int line_width_mode = 0;
 uniform int round_resolution = 8;
 uniform float miter_limit = 4.0;
 
@@ -30,6 +31,23 @@ float apply_depth_bias(vec4 clip, float bias) {
 
 vec2 screen_from_clip(vec4 clip, vec2 viewport_size) {
   return viewport_size * (0.5 * clip.xy / clip.w + 0.5);
+}
+
+float resolve_joint_width(
+    float width,
+    vec4 clip,
+    vec3 view_position,
+    vec2 viewport_size,
+    mat4 projection_matrix
+) {
+  if (line_width_mode == 0) {
+    return width;
+  }
+
+  vec2 screen = screen_from_clip(clip, viewport_size);
+  vec4 offset_clip = projection_matrix * vec4(view_position + vec3(1.0, 0.0, 0.0), 1.0);
+  vec2 offset_screen = screen_from_clip(offset_clip, viewport_size);
+  return width * length(offset_screen - screen);
 }
 
 vec2 safe_normalize(vec2 value) {

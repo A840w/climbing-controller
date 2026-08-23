@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="idk man"
+run/main_scene="uid://bcjj1uu44pdbc"
 config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -23,6 +24,10 @@ CardinalSystem="*uid://dyedtjy5ce6st"
 
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
+
+[dotnet]
+
+project/assembly_name="idk man"
 
 [editor_plugins]
 
@@ -83,3 +88,4 @@ sprint={
 [rendering]
 
 rendering_device/driver.windows="d3d12"
+lights_and_shadows/use_physical_light_units=true

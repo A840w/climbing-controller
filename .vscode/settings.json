@@ -1,3 +1,5 @@
 {
-    "godotTools.editorPath.godot4": "e:\\godot\\4.7.2-rc1\\Godot_v4.7.2-rc1_win64.exe"
+    "godotTools.editorPath.godot4": "E:\\godot\\Godot_v4.7.2\\Godot_v4.7.2-stable_win64.exe",
+    "godotTools.formatter.denseFunctionParameters": true,
+    "godotTools.inlayHints.gdresource": true
 }
