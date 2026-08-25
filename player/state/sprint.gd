@@ -15,7 +15,7 @@ func _update(delta: float) -> void:
 		return
 
 	movement.apply_ground_movement(player.move_dir, delta, movement.sprint_speed)
-	movement.apply_friction(delta)
+	#movement.apply_friction(delta)
 
 	if Input.is_action_just_pressed("jump"):
 		movement.execute_jump()

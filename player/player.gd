@@ -8,8 +8,8 @@ extends CharacterBody3D
 
 @export_subgroup("Components")
 @export var mouse_component: MouseComponent
-@onready var movement_component : MovementComponent
-#@export var CameraJuice : CameraJuiceComponent
+@export var movement_component : MovementComponent
+@export var CameraJuice : CameraJuiceComponent
 @onready var state_machine: StateMachine = %StateMachine
 
 
@@ -17,6 +17,7 @@ extends CharacterBody3D
 @export var PlayerState_label: Label
 @export var heading_label: Label
 @export var pos_label: Label
+@export var debug_val: Label
 #endregion
 
 #region internal variables
@@ -37,6 +38,7 @@ func _unhandled_input(event)->void:
 
 
 func _ready() -> void:
+	SignalVan.bob_value_update.connect(_on_value_update)
 	Input.set_use_accumulated_input(false)
 	state_machine._setup_state_machine()
 	# state_machine.hsm.active_state_changed.connect(_on_active_state_changed)
@@ -44,21 +46,24 @@ func _ready() -> void:
 	state_machine._update_state_label() # Set initial text
 
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 
 	current_direction = -global_transform.origin
 	current_direction.y = 0
 	current_direction = current_direction.normalized()
 	update_heading_display()
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 
 
 	# Capture horizontal input relative to world/camera axes
 	var input_dir := Input.get_vector("left", "right", "front", "back")
 	move_dir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	pos_label.text = "%.1f" % move_dir.length()
+	#pos_label.text = str(movement_component.player.velocity)
+	var vel = movement_component.player.velocity
+	pos_label.text = "Velocity: (" + String.num(vel.x, 2) + ", " + String.num(vel.y, 2) + ", " + String.num(vel.z, 2) + ")"
 	move_and_slide()
+
 
 #endregion
 
@@ -74,6 +79,9 @@ func update_heading_display() -> void:
 		heading_label.text = "---"
 
 
+
+func _on_value_update(x_val, y_val):
+	debug_val.text = "X: %.1f, Y:%s" % [x_val, y_val]
 # func _on_active_state_changed(current: LimboState, _previous: LimboState) -> void:
 # 	# Use get_state_name() or current.name
 # 	PlayerState_label.text = current.get_name()

@@ -1,6 +1,5 @@
 extends BaseState
 
-
 func _enter() -> void:
 	pass
 
@@ -31,4 +30,5 @@ func _update(delta: float) -> void:
 
 	# Apply ground velocity
 	movement.apply_ground_movement(player.move_dir, delta, movement.walk_speed)
-	movement.apply_friction(delta)
+	#movement.apply_friction(delta)
+	CameraJuice.update_camera_bob(delta)

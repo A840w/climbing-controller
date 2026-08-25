@@ -20,8 +20,10 @@ func apply_gravity(delta: float) -> void:
 
 func apply_ground_movement(input_dir: Vector3, delta: float , speed : float = walk_speed) -> void:
     var target_velocity = input_dir * speed
+    
     player.velocity.x = lerp(player.velocity.x, target_velocity.x, acceleration * delta)
     player.velocity.z = lerp(player.velocity.z, target_velocity.z, acceleration * delta)
+
     
 
 func apply_friction(delta: float) -> void:

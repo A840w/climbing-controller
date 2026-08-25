@@ -21,6 +21,10 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_8lcvq"]
 
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_32hag"]
+radius = 0.1
+height = 1.0
+
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_ykrsh"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_b26j0"]
@@ -28,21 +32,36 @@ font = ExtResource("8_dw050")
 font_size = 21
 font_color = Color(0.45928943, 0.5766141, 0.9893107, 1)
 
-[node name="player" type="CharacterBody3D" unique_id=334747435 node_paths=PackedStringArray("mouse_component", "PlayerState_label", "heading_label", "pos_label")]
+[sub_resource type="Curve" id="Curve_ppyta"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 0.424), 0.0, 0.0, 0, 0, Vector2(0.5945248, 0.7652438), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="Curve" id="Curve_ykrsh"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25154957, 0.48383617), 0.0, 0.0, 0, 0, Vector2(0.5036157, 0.77693963), 0.0, 0.0, 0, 0, Vector2(0.76394624, 0.39762926), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 5
+
+[node name="player" type="CharacterBody3D" unique_id=334747435 node_paths=PackedStringArray("mouse_component", "movement_component", "CameraJuice", "PlayerState_label", "heading_label", "pos_label", "debug_val")]
 script = ExtResource("1_2hs0m")
 mouse_component = NodePath("Components/MouseComponent")
+movement_component = NodePath("Components/MovementComponent")
+CameraJuice = NodePath("Components/CameraJuiceComponent")
 PlayerState_label = NodePath("Ui/Control/VBoxContainer/PlayerState/state")
 heading_label = NodePath("Ui/Control/VBoxContainer/HeadingDirection/directions")
 pos_label = NodePath("Ui/Control/VBoxContainer/PositonCoord/dr")
+debug_val = NodePath("Ui/Control/VBoxContainer/debug label/dr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1921364800]
 shape = SubResource("CapsuleShape3D_8lcvq")
 debug_color = Color(0.43137255, 0.78431374, 0.98039216, 0.5294118)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=627522174]
-visible = false
 material_override = ExtResource("2_32hag")
 mesh = SubResource("CapsuleMesh_8lcvq")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=751110598]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.0005043149, 0.50102836, -0.64918596)
+material_override = ExtResource("2_32hag")
+mesh = SubResource("CapsuleMesh_32hag")
 
 [node name="head" type="Node3D" parent="." unique_id=1914627128]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1107796, 0)
@@ -68,11 +87,12 @@ script = ExtResource("2_1jxqw")
 player = NodePath("../../..")
 movement = NodePath("../../../Components/MovementComponent")
 
-[node name="Walking" type="LimboState" parent="HSM/GroundedHSM" unique_id=1600518051 node_paths=PackedStringArray("player", "movement")]
+[node name="Walking" type="LimboState" parent="HSM/GroundedHSM" unique_id=1600518051 node_paths=PackedStringArray("player", "movement", "CameraJuice")]
 unique_name_in_owner = true
 script = ExtResource("3_dw050")
 player = NodePath("../../..")
 movement = NodePath("../../../Components/MovementComponent")
+CameraJuice = NodePath("../../../Components/CameraJuiceComponent")
 
 [node name="Sprinting" type="LimboState" parent="HSM/GroundedHSM" unique_id=1993084751 node_paths=PackedStringArray("player", "movement")]
 script = ExtResource("5_ivps1")
@@ -166,6 +186,18 @@ label_settings = ExtResource("7_1jxqw")
 layout_mode = 2
 label_settings = SubResource("LabelSettings_b26j0")
 
+[node name="debug label" type="HBoxContainer" parent="Ui/Control/VBoxContainer" unique_id=1452431410]
+layout_mode = 2
+
+[node name="pos" type="Label" parent="Ui/Control/VBoxContainer/debug label" unique_id=567628069]
+layout_mode = 2
+text = "bob"
+label_settings = ExtResource("7_1jxqw")
+
+[node name="dr" type="Label" parent="Ui/Control/VBoxContainer/debug label" unique_id=2016641170]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_b26j0")
+
 [node name="Components" type="Node" parent="." unique_id=587773961]
 
 [node name="MouseComponent" type="Node" parent="Components" unique_id=1107780685 node_paths=PackedStringArray("camera_pivot", "player")]
@@ -179,8 +211,13 @@ unique_name_in_owner = true
 script = ExtResource("13_urp6f")
 player = NodePath("../..")
 
-[node name="CameraJuiceComponent" type="Node" parent="Components" unique_id=1096301191]
+[node name="CameraJuiceComponent" type="Node" parent="Components" unique_id=1096301191 node_paths=PackedStringArray("camera_pivot", "player", "movement")]
 script = ExtResource("14_kb6p2")
+camera_pivot = NodePath("../../head/CameraPivot")
+bounce_curve = SubResource("Curve_ppyta")
+sway_curve = SubResource("Curve_ykrsh")
+player = NodePath("../..")
+movement = NodePath("../MovementComponent")
 
 [node name="BaseStates" type="LimboState" parent="." unique_id=73938601 node_paths=PackedStringArray("player", "movement")]
 script = ExtResource("15_wodsf")
