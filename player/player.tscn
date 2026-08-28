@@ -27,20 +27,31 @@ height = 1.0
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_ykrsh"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6uqi0"]
+vertex_color_use_as_albedo = true
+vertex_color_is_srgb = true
+albedo_color = Color(1, 0.023529412, 0, 1)
+emission_enabled = true
+emission = Color(1, 0, 0, 1)
+emission_energy_multiplier = 7.74
+emission_intensity = 27536.88
+
+[sub_resource type="BoxMesh" id="BoxMesh_8lcvq"]
+
 [sub_resource type="LabelSettings" id="LabelSettings_b26j0"]
 font = ExtResource("8_dw050")
 font_size = 21
 font_color = Color(0.45928943, 0.5766141, 0.9893107, 1)
 
 [sub_resource type="Curve" id="Curve_ppyta"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25, 0.424), 0.0, 0.0, 0, 0, Vector2(0.5945248, 0.7652438), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.14411157, 0.30182922), 0.0, 0.0, 0, 0, Vector2(0.41683882, 0.5619918), 0.0, 0.0, 0, 0, Vector2(0.652376, 0), 0.0, 0.0, 0, 0]
 point_count = 4
 
 [sub_resource type="Curve" id="Curve_ykrsh"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.25154957, 0.48383617), 0.0, 0.0, 0, 0, Vector2(0.5036157, 0.77693963), 0.0, 0.0, 0, 0, Vector2(0.76394624, 0.39762926), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.22675619, 0.36314654), 0.0, 0.0, 0, 0, Vector2(0.4829545, 0.7338362), 0.0, 0.0, 0, 0, Vector2(0.72675616, 0.30280173), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 5
 
-[node name="player" type="CharacterBody3D" unique_id=334747435 node_paths=PackedStringArray("mouse_component", "movement_component", "CameraJuice", "PlayerState_label", "heading_label", "pos_label", "debug_val")]
+[node name="player" type="CharacterBody3D" unique_id=334747435 node_paths=PackedStringArray("mouse_component", "movement_component", "CameraJuice", "PlayerState_label", "heading_label", "pos_label", "debug_val", "camera_label")]
 script = ExtResource("1_2hs0m")
 mouse_component = NodePath("Components/MouseComponent")
 movement_component = NodePath("Components/MovementComponent")
@@ -49,6 +60,7 @@ PlayerState_label = NodePath("Ui/Control/VBoxContainer/PlayerState/state")
 heading_label = NodePath("Ui/Control/VBoxContainer/HeadingDirection/directions")
 pos_label = NodePath("Ui/Control/VBoxContainer/PositonCoord/dr")
 debug_val = NodePath("Ui/Control/VBoxContainer/debug label/dr")
+camera_label = NodePath("Ui/Control/VBoxContainer/camera/dr")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1921364800]
 shape = SubResource("CapsuleShape3D_8lcvq")
@@ -71,6 +83,13 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1107796, 0)
 [node name="Camera3D" type="Camera3D" parent="head/CameraPivot" unique_id=527418969]
 attributes = SubResource("CameraAttributesPhysical_ykrsh")
 fov = 37.849285
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="head/CameraPivot/Camera3D" unique_id=1146650166]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+material_override = SubResource("StandardMaterial3D_6uqi0")
+mesh = SubResource("BoxMesh_8lcvq")
+
+[node name="CameraBasePos" type="Marker3D" parent="head" unique_id=425485613]
 
 [node name="HSM" type="LimboHSM" parent="." unique_id=1919628083]
 unique_name_in_owner = true
@@ -136,17 +155,14 @@ anchors_preset = 0
 [node name="ColorRect" type="ColorRect" parent="Ui/Control" unique_id=1072848192]
 layout_mode = 0
 offset_right = 332.0
-offset_bottom = 135.0
+offset_bottom = 156.0
 color = Color(0.09803922, 0.09803922, 0.09803922, 0.45882353)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Ui/Control" unique_id=112917238]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 0.21900001
-anchor_bottom = 0.18200001
-offset_right = 220.0
-offset_bottom = 92.0
-metadata/_edit_use_anchors_ = true
+offset_right = 332.0
+offset_bottom = 134.0
 
 [node name="PlayerState" type="HBoxContainer" parent="Ui/Control/VBoxContainer" unique_id=449498906]
 layout_mode = 2
@@ -198,6 +214,18 @@ label_settings = ExtResource("7_1jxqw")
 layout_mode = 2
 label_settings = SubResource("LabelSettings_b26j0")
 
+[node name="camera" type="HBoxContainer" parent="Ui/Control/VBoxContainer" unique_id=1352993849]
+layout_mode = 2
+
+[node name="pos" type="Label" parent="Ui/Control/VBoxContainer/camera" unique_id=73415025]
+layout_mode = 2
+text = "camera"
+label_settings = ExtResource("7_1jxqw")
+
+[node name="dr" type="Label" parent="Ui/Control/VBoxContainer/camera" unique_id=875052225]
+layout_mode = 2
+label_settings = SubResource("LabelSettings_b26j0")
+
 [node name="Components" type="Node" parent="." unique_id=587773961]
 
 [node name="MouseComponent" type="Node" parent="Components" unique_id=1107780685 node_paths=PackedStringArray("camera_pivot", "player")]
@@ -211,13 +239,15 @@ unique_name_in_owner = true
 script = ExtResource("13_urp6f")
 player = NodePath("../..")
 
-[node name="CameraJuiceComponent" type="Node" parent="Components" unique_id=1096301191 node_paths=PackedStringArray("camera_pivot", "player", "movement")]
+[node name="CameraJuiceComponent" type="Node" parent="Components" unique_id=1096301191 node_paths=PackedStringArray("camera_pivot", "player", "movement", "camera_base_pos")]
 script = ExtResource("14_kb6p2")
 camera_pivot = NodePath("../../head/CameraPivot")
 bounce_curve = SubResource("Curve_ppyta")
 sway_curve = SubResource("Curve_ykrsh")
+bob_amplitude = 0.2
 player = NodePath("../..")
 movement = NodePath("../MovementComponent")
+camera_base_pos = NodePath("../../head/CameraBasePos")
 
 [node name="BaseStates" type="LimboState" parent="." unique_id=73938601 node_paths=PackedStringArray("player", "movement")]
 script = ExtResource("15_wodsf")

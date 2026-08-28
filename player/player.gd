@@ -18,6 +18,7 @@ extends CharacterBody3D
 @export var heading_label: Label
 @export var pos_label: Label
 @export var debug_val: Label
+@export var camera_label : Label
 #endregion
 
 #region internal variables
@@ -44,6 +45,12 @@ func _ready() -> void:
 	# state_machine.hsm.active_state_changed.connect(_on_active_state_changed)
 	state_machine._connect_label_signal()
 	state_machine._update_state_label() # Set initial text
+
+func _input(event):
+	if event.is_action_pressed("camera_fps"): # map to C+1
+		SignalVan.camera_switch.emit("fps")
+	elif event.is_action_pressed("camera_debug"): # map to C+2
+		SignalVan.camera_switch.emit("debug")
 
 
 func _process(_delta: float) -> void:
@@ -80,8 +87,10 @@ func update_heading_display() -> void:
 
 
 
-func _on_value_update(x_val, y_val):
-	debug_val.text = "X: %.1f, Y:%s" % [x_val, y_val]
+func _on_value_update(sway_x, bob_y):
+	debug_val.text = "X: %s, Y:%s" % [sway_x, bob_y]
+
+
 # func _on_active_state_changed(current: LimboState, _previous: LimboState) -> void:
 # 	# Use get_state_name() or current.name
 # 	PlayerState_label.text = current.get_name()

@@ -2,6 +2,7 @@
 
 [ext_resource type="Material" uid="uid://cxequ7mobms3d" path="res://materials/texture_06_black.tres" id="1_6uqi0"]
 [ext_resource type="PackedScene" uid="uid://bqiu2mvy5dkel" path="res://player/player.tscn" id="1_37kl0"]
+[ext_resource type="Script" uid="uid://b5r0jbauo6gxh" path="res://globals/world_manager.gd" id="1_ppyta"]
 [ext_resource type="Material" uid="uid://3j4x2h0bup2t" path="res://materials/texture_04_white.tres" id="4_ppyta"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_6uqi0"]
@@ -26,7 +27,10 @@ frustum_far = 4000.1
 exposure_aperture = 17.0
 exposure_shutter_speed = 50.0
 
-[node name="Node3D" type="Node3D" unique_id=550919651]
+[node name="Node3D" type="Node3D" unique_id=550919651 node_paths=PackedStringArray("debug_camera", "fps_camera")]
+script = ExtResource("1_ppyta")
+debug_camera = NodePath("player/Camera3D")
+fps_camera = NodePath("player/head/CameraPivot/Camera3D")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1088878005]
 transform = Transform3D(0.48980534, 0.052654404, -0.8702401, 0.8567345, 0.15588498, 0.49163625, 0.16154423, -0.98637074, 0.031242419, 0, 0, 0)
@@ -89,7 +93,10 @@ use_collision = true
 [node name="player" parent="." unique_id=334747435 instance=ExtResource("1_37kl0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2050276, 0)
 
-[node name="Camera3D" type="Camera3D" parent="." unique_id=98978828]
-transform = Transform3D(0.71630305, -0.38004318, 0.58521545, 0, 0.8386707, 0.5446389, -0.6977893, -0.3901265, 0.60074234, 8.293989, 10.76333, 10.685453)
+[node name="Camera3D" type="Camera3D" parent="player" unique_id=98978828]
+transform = Transform3D(0.9972501, 0.035645947, -0.06497398, 0, 0.87672675, 0.48098877, 0.074109726, -0.47966608, 0.8743158, -0.74497443, 8.839898, 16.057686)
 attributes = SubResource("CameraAttributesPhysical_ppyta")
+current = true
 fov = 20.919819
+
+[editable path="player"]
