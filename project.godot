@@ -100,3 +100,14 @@ camera_debug={
 
 rendering_device/driver.windows="d3d12"
 lights_and_shadows/use_physical_light_units=true
+
+[shader_globals]
+
+day_progress={
+"type": "bool",
+"value": true
+}
+sun_direction={
+"type": "vec3",
+"value": Vector3(0, 0, 0)
+}

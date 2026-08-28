@@ -3,12 +3,11 @@
 [ext_resource type="Material" uid="uid://cxequ7mobms3d" path="res://materials/texture_06_black.tres" id="1_6uqi0"]
 [ext_resource type="PackedScene" uid="uid://bqiu2mvy5dkel" path="res://player/player.tscn" id="1_37kl0"]
 [ext_resource type="Script" uid="uid://b5r0jbauo6gxh" path="res://globals/world_manager.gd" id="1_ppyta"]
+[ext_resource type="Material" uid="uid://bst1bjfmpbb3j" path="res://shaders/tres/global_sky.tres" id="2_ykrsh"]
 [ext_resource type="Material" uid="uid://3j4x2h0bup2t" path="res://materials/texture_04_white.tres" id="4_ppyta"]
 
-[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_6uqi0"]
-
 [sub_resource type="Sky" id="Sky_6uqi0"]
-sky_material = SubResource("PhysicalSkyMaterial_6uqi0")
+sky_material = ExtResource("2_ykrsh")
 
 [sub_resource type="Environment" id="Environment_ppyta"]
 background_mode = 2
