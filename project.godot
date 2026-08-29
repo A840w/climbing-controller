@@ -20,9 +20,13 @@ config/icon="res://icon.svg"
 PhantomCameraManager="*uid://duq6jhf6unyis"
 CardinalSystem="*uid://dyedtjy5ce6st"
 SignalVan="*uid://bcyl1mdc237bu"
+TimeManager="*uid://dli2g1vw7umma"
 
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/size/mode=4
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
@@ -32,7 +36,7 @@ project/assembly_name="idk man"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg")
+enabled=PackedStringArray("res://addons/phantom_camera/plugin.cfg", "res://addons/sky_3d/plugin.cfg")
 
 [input]
 

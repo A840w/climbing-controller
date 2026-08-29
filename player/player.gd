@@ -18,7 +18,7 @@ extends CharacterBody3D
 @export var heading_label: Label
 @export var pos_label: Label
 @export var debug_val: Label
-@export var camera_label : Label
+@export var time_label : Label
 #endregion
 
 #region internal variables
@@ -39,12 +39,14 @@ func _unhandled_input(event)->void:
 
 
 func _ready() -> void:
+	TimeManager.time_changed.connect(_on_time_changed)
 	SignalVan.bob_value_update.connect(_on_value_update)
 	Input.set_use_accumulated_input(false)
 	state_machine._setup_state_machine()
 	# state_machine.hsm.active_state_changed.connect(_on_active_state_changed)
 	state_machine._connect_label_signal()
 	state_machine._update_state_label() # Set initial text
+	time_label.text = TimeManager.get_time_string()
 
 func _input(event):
 	if event.is_action_pressed("camera_fps"): # map to C+1
@@ -67,7 +69,7 @@ func _physics_process(_delta: float) -> void:
 	var input_dir := Input.get_vector("left", "right", "front", "back")
 	move_dir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	#pos_label.text = str(movement_component.player.velocity)
-	var vel = movement_component.player.velocity
+	var vel = self.velocity
 	pos_label.text = "Velocity: (" + String.num(vel.x, 2) + ", " + String.num(vel.y, 2) + ", " + String.num(vel.z, 2) + ")"
 	move_and_slide()
 
@@ -89,6 +91,9 @@ func update_heading_display() -> void:
 
 func _on_value_update(sway_x, bob_y):
 	debug_val.text = "X: %s, Y:%s" % [sway_x, bob_y]
+
+func _on_time_changed(h: int, m: int, _s: int, _total: float) -> void:
+	time_label.text = "%02d:%02d" % [h, m]
 
 
 # func _on_active_state_changed(current: LimboState, _previous: LimboState) -> void:

@@ -3,11 +3,20 @@
 [ext_resource type="Material" uid="uid://cxequ7mobms3d" path="res://materials/texture_06_black.tres" id="1_6uqi0"]
 [ext_resource type="PackedScene" uid="uid://bqiu2mvy5dkel" path="res://player/player.tscn" id="1_37kl0"]
 [ext_resource type="Script" uid="uid://b5r0jbauo6gxh" path="res://globals/world_manager.gd" id="1_ppyta"]
-[ext_resource type="Material" uid="uid://bst1bjfmpbb3j" path="res://shaders/tres/global_sky.tres" id="2_ykrsh"]
 [ext_resource type="Material" uid="uid://3j4x2h0bup2t" path="res://materials/texture_04_white.tres" id="4_ppyta"]
+[ext_resource type="Script" uid="uid://q7rngbm3b4k5" path="res://test/climate.gd" id="6_g14j6"]
+
+[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_g14j6"]
+rayleigh_coefficient = 2.5
+rayleigh_color = Color(0.42745098, 0.61960787, 1, 1)
+mie_coefficient = 0.015
+mie_color = Color(0.9098039, 0.9098039, 0.9098039, 1)
+turbidity = 12.0
+sun_disk_scale = 2.0
+ground_color = Color(0.101960786, 0.07058824, 0.050980393, 1)
 
 [sub_resource type="Sky" id="Sky_6uqi0"]
-sky_material = ExtResource("2_ykrsh")
+sky_material = SubResource("PhysicalSkyMaterial_g14j6")
 
 [sub_resource type="Environment" id="Environment_ppyta"]
 background_mode = 2
@@ -67,7 +76,7 @@ use_collision = true
 size = Vector3(100, 10, 0.5)
 
 [node name="wall4" type="CSGBox3D" parent="wall" unique_id=314610399]
-transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -50, 4.965, 0.172)
+transform = Transform3D(-4.371139e-08, 0, 1, 0, 1, 0, -1, 0, -4.371139e-08, -49.71393, 4.875644, 0.172)
 material_override = ExtResource("1_6uqi0")
 use_collision = true
 size = Vector3(100, 10, 0.5)
@@ -97,5 +106,13 @@ transform = Transform3D(0.9972501, 0.035645947, -0.06497398, 0, 0.87672675, 0.48
 attributes = SubResource("CameraAttributesPhysical_ppyta")
 current = true
 fov = 20.919819
+
+[node name="daynightcycle" type="Node3D" parent="." unique_id=1236898596 node_paths=PackedStringArray("sun", "moon", "world_environment")]
+script = ExtResource("6_g14j6")
+sun = NodePath("../DirectionalLight3D")
+moon = NodePath("../DirectionalLight3D2")
+world_environment = NodePath("../WorldEnvironment")
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="." unique_id=2061041895]
 
 [editable path="player"]
