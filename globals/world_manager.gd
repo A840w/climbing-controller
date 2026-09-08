@@ -1,3 +1,4 @@
+
 extends Node3D
 
 @export var debug_camera : Camera3D

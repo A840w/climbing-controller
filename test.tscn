@@ -18,6 +18,7 @@ ground_color = Color(0.101960786, 0.07058824, 0.050980393, 1)
 
 [sub_resource type="Sky" id="Sky_6uqi0"]
 sky_material = SubResource("PhysicalSkyMaterial_g14j6")
+process_mode = 3
 
 [sub_resource type="Environment" id="Environment_ppyta"]
 background_mode = 2

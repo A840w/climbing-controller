@@ -70,26 +70,6 @@ point_count = 5
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.22675619, 0.36314654), 0.0, 0.0, 0, 0, Vector2(0.4829545, 0.7338362), 0.0, 0.0, 0, 0, Vector2(0.72675616, 0.30280173), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 5
 
-[sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_32hag"]
-rayleigh_coefficient = 2.5
-rayleigh_color = Color(0.42745098, 0.61960787, 1, 1)
-mie_coefficient = 0.015
-mie_color = Color(0.9098039, 0.9098039, 0.9098039, 1)
-turbidity = 12.0
-sun_disk_scale = 2.0
-ground_color = Color(0.101960786, 0.07058824, 0.050980393, 1)
-
-[sub_resource type="Sky" id="Sky_6uqi0"]
-sky_material = SubResource("PhysicalSkyMaterial_32hag")
-
-[sub_resource type="Environment" id="Environment_tqiix"]
-background_mode = 2
-sky = SubResource("Sky_6uqi0")
-tonemap_mode = 3
-glow_enabled = true
-
-[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_e7oew"]
-
 [node name="player" type="CharacterBody3D" unique_id=334747435 node_paths=PackedStringArray("mouse_component", "movement_component", "CameraJuice", "PlayerState_label", "heading_label", "pos_label", "debug_val", "time_label")]
 script = ExtResource("1_2hs0m")
 mouse_component = NodePath("Components/MouseComponent")
@@ -307,7 +287,3 @@ camera_base_pos = NodePath("../../head/CameraBasePos")
 script = ExtResource("15_wodsf")
 player = NodePath("..")
 movement = NodePath("../Components/MovementComponent")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=42048686]
-environment = SubResource("Environment_tqiix")
-camera_attributes = SubResource("CameraAttributesPhysical_e7oew")
