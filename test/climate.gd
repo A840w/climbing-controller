@@ -1,3 +1,4 @@
+
 extends Node3D
 
 ## Drives sun, moon, sky, and fog from TimeManager signals.
