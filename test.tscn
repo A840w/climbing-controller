@@ -5,6 +5,7 @@
 [ext_resource type="Script" uid="uid://b5r0jbauo6gxh" path="res://globals/world_manager.gd" id="1_ppyta"]
 [ext_resource type="Material" uid="uid://3j4x2h0bup2t" path="res://materials/texture_04_white.tres" id="4_ppyta"]
 [ext_resource type="Script" uid="uid://q7rngbm3b4k5" path="res://test/climate.gd" id="6_g14j6"]
+[ext_resource type="Texture2D" uid="uid://dm0rivuljrwix" path="res://textures/texture_05.png" id="6_vbegm"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_g14j6"]
 rayleigh_coefficient = 2.5
@@ -34,6 +35,13 @@ frustum_near = 0.001
 frustum_far = 4000.1
 exposure_aperture = 17.0
 exposure_shutter_speed = 50.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ehkex"]
+albedo_texture = ExtResource("6_vbegm")
+
+[sub_resource type="SphereMesh" id="SphereMesh_8lcvq"]
+radius = 0.2
+height = 0.2
 
 [node name="Node3D" type="Node3D" unique_id=550919651 node_paths=PackedStringArray("debug_camera", "fps_camera")]
 script = ExtResource("1_ppyta")
@@ -87,11 +95,17 @@ material_override = ExtResource("4_ppyta")
 use_collision = true
 size = Vector3(2, 2, 2)
 
-[node name="box3" type="CSGBox3D" parent="." unique_id=1941910289]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.411144, 0.9529278, 0)
+[node name="box3" type="CSGBox3D" parent="." unique_id=1710615399]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.607782, 10.893403, 3.4035697)
 material_override = ExtResource("4_ppyta")
 use_collision = true
-size = Vector3(2, 2, 2)
+size = Vector3(4.8481445, 2, 1.453125)
+
+[node name="climbingwall" type="CSGBox3D" parent="." unique_id=1941910289]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -29.411144, 6.544389, -1.5965576)
+material_override = ExtResource("4_ppyta")
+use_collision = true
+size = Vector3(2, 13.182922, 14.272705)
 
 [node name="box2" type="CSGBox3D" parent="." unique_id=1174671768]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -6.669817, 0.4895773, -2.4429126)
@@ -114,5 +128,38 @@ moon = NodePath("../DirectionalLight3D2")
 world_environment = NodePath("../WorldEnvironment")
 
 [node name="DirectionalLight3D2" type="DirectionalLight3D" parent="." unique_id=2061041895]
+sky_mode = 1
+
+[node name="holds" type="Node3D" parent="." unique_id=2017018276]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="holds" unique_id=1516015642]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.34846, 1.6626147, 1.0723325)
+material_override = SubResource("StandardMaterial3D_ehkex")
+mesh = SubResource("SphereMesh_8lcvq")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="holds" unique_id=2079148421]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.391699, 0.9270718, -0.66139054)
+material_override = SubResource("StandardMaterial3D_ehkex")
+mesh = SubResource("SphereMesh_8lcvq")
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="holds" unique_id=1652171200]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.498877, 3.5470445, -0.9546251)
+material_override = SubResource("StandardMaterial3D_ehkex")
+mesh = SubResource("SphereMesh_8lcvq")
+
+[node name="MeshInstance3D4" type="MeshInstance3D" parent="holds" unique_id=1007760]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.498877, 1.6403646, -1.7494636)
+material_override = SubResource("StandardMaterial3D_ehkex")
+mesh = SubResource("SphereMesh_8lcvq")
+
+[node name="MeshInstance3D5" type="MeshInstance3D" parent="holds" unique_id=1655759783]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.472815, 3.3488925, 0.7325944)
+material_override = SubResource("StandardMaterial3D_ehkex")
+mesh = SubResource("SphereMesh_8lcvq")
+
+[node name="MeshInstance3D6" type="MeshInstance3D" parent="holds" unique_id=2099372855]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.414951, 2.6133497, -0.062244058)
+material_override = SubResource("StandardMaterial3D_ehkex")
+mesh = SubResource("SphereMesh_8lcvq")
 
 [editable path="player"]

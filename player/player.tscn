@@ -13,6 +13,8 @@
 [ext_resource type="Script" uid="uid://hn6smmk5j6xb" path="res://player/state/jump.gd" id="8_bwjto"]
 [ext_resource type="FontFile" uid="uid://hvyuwliijobe" path="res://font/Chakra_Petch/ChakraPetch-Bold.ttf" id="8_dw050"]
 [ext_resource type="Script" uid="uid://dgen80n84qxo2" path="res://player/component/mouse_component.gd" id="9_b26j0"]
+[ext_resource type="Script" uid="uid://cjuta2kwteayb" path="res://player/state/climb_initiate.gd" id="10_tqiix"]
+[ext_resource type="Script" uid="uid://bxvqdiumuiumw" path="res://player/state/climb_idle.gd" id="11_e7oew"]
 [ext_resource type="Script" uid="uid://d2k7v2n8j6e3q" path="res://player/component/movement_component.gd" id="13_urp6f"]
 [ext_resource type="Script" uid="uid://dxn8naauoirhc" path="res://player/component/CameraJuice.gd" id="14_kb6p2"]
 [ext_resource type="Script" uid="uid://djuo5q1j1d2p7" path="res://player/state/base_states.gd" id="15_wodsf"]
@@ -38,14 +40,31 @@ emission_intensity = 27536.88
 
 [sub_resource type="BoxMesh" id="BoxMesh_8lcvq"]
 
+[sub_resource type="BlackboardPlan" id="BlackboardPlan_tqiix"]
+var/stamina/name = &"stamina"
+var/stamina/type = 3
+var/stamina/value = 0.0
+var/stamina/hint = 0
+var/stamina/hint_string = ""
+var/max_stamina/name = &"max_stamina"
+var/max_stamina/type = 3
+var/max_stamina/value = 0.0
+var/max_stamina/hint = 0
+var/max_stamina/hint_string = ""
+var/equipped_tool/name = &"equipped_tool"
+var/equipped_tool/type = 2
+var/equipped_tool/value = 0
+var/equipped_tool/hint = 0
+var/equipped_tool/hint_string = ""
+
 [sub_resource type="LabelSettings" id="LabelSettings_b26j0"]
 font = ExtResource("8_dw050")
 font_size = 21
 font_color = Color(0.45928943, 0.5766141, 0.9893107, 1)
 
 [sub_resource type="Curve" id="Curve_ppyta"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.14411157, 0.30182922), 0.0, 0.0, 0, 0, Vector2(0.41683882, 0.5619918), 0.0, 0.0, 0, 0, Vector2(0.652376, 0), 0.0, 0.0, 0, 0]
-point_count = 4
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.14411157, 0.30182922), 0.0, 0.0, 0, 0, Vector2(0.24741736, 1), 0.0, 0.0, 0, 0, Vector2(0.3713843, 0.37176722), 0.0, 0.0, 0, 0, Vector2(0.49948347, 0), 0.0, 0.0, 0, 0]
+point_count = 5
 
 [sub_resource type="Curve" id="Curve_ykrsh"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.22675619, 0.36314654), 0.0, 0.0, 0, 0, Vector2(0.4829545, 0.7338362), 0.0, 0.0, 0, 0, Vector2(0.72675616, 0.30280173), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -92,6 +111,7 @@ mesh = SubResource("CapsuleMesh_8lcvq")
 
 [node name="MeshInstance3D2" type="MeshInstance3D" parent="." unique_id=751110598]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, -0.0005043149, 0.50102836, -0.64918596)
+visible = false
 material_override = ExtResource("2_32hag")
 mesh = SubResource("CapsuleMesh_32hag")
 
@@ -112,6 +132,7 @@ mesh = SubResource("BoxMesh_8lcvq")
 [node name="CameraBasePos" type="Marker3D" parent="head" unique_id=425485613]
 
 [node name="HSM" type="LimboHSM" parent="." unique_id=1919628083]
+blackboard_plan = SubResource("BlackboardPlan_tqiix")
 unique_name_in_owner = true
 
 [node name="Death" type="LimboState" parent="HSM" unique_id=1425495517]
@@ -152,7 +173,16 @@ movement = NodePath("../../../Components/MovementComponent")
 [node name="jump" type="LimboState" parent="HSM/AirHSM" unique_id=229143039]
 script = ExtResource("8_bwjto")
 
-[node name="StateMachine" type="Node" parent="." unique_id=1295608754 node_paths=PackedStringArray("player", "hsm", "groundedHSM", "airHSM", "idle_state", "walk_state", "fall_state", "sprint_state", "crouch_state", "jump_state")]
+[node name="ClimbHSM" type="LimboHSM" parent="HSM" unique_id=2071170958]
+
+[node name="ClimbInitiate" type="LimboState" parent="HSM/ClimbHSM" unique_id=170464346 node_paths=PackedStringArray("player")]
+script = ExtResource("10_tqiix")
+player = NodePath("../../..")
+
+[node name="ClimbIdle" type="LimboState" parent="HSM/ClimbHSM" unique_id=2117012448]
+script = ExtResource("11_e7oew")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1295608754 node_paths=PackedStringArray("player", "hsm", "groundedHSM", "airHSM", "idle_state", "walk_state", "fall_state", "sprint_state", "crouch_state", "jump_state", "CHSM", "climb_initial_state", "climb_idle_state")]
 unique_name_in_owner = true
 script = ExtResource("6_nvl01")
 player = NodePath("..")
@@ -165,6 +195,9 @@ fall_state = NodePath("../HSM/AirHSM/falling")
 sprint_state = NodePath("../HSM/GroundedHSM/Sprinting")
 crouch_state = NodePath("../HSM/GroundedHSM/Crouching")
 jump_state = NodePath("../HSM/AirHSM/jump")
+CHSM = NodePath("../HSM/ClimbHSM")
+climb_initial_state = NodePath("../HSM/ClimbHSM/ClimbInitiate")
+climb_idle_state = NodePath("../HSM/ClimbHSM/ClimbIdle")
 
 [node name="Ui" type="CanvasLayer" parent="." unique_id=521590104]
 
@@ -264,7 +297,8 @@ script = ExtResource("14_kb6p2")
 camera_pivot = NodePath("../../head/CameraPivot")
 bounce_curve = SubResource("Curve_ppyta")
 sway_curve = SubResource("Curve_ykrsh")
-bob_amplitude = 0.2
+bob_amplitude = 0.1
+sway_amplitude = 0.0
 player = NodePath("../..")
 movement = NodePath("../MovementComponent")
 camera_base_pos = NodePath("../../head/CameraBasePos")
