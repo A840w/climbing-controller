@@ -1,0 +1,8 @@
+[gd_resource type="LabelSettings" format=3 uid="uid://c7ak7k6u022g5"]
+
+[ext_resource type="FontFile" uid="uid://b5a52rsgsqf7e" path="res://font/Chakra_Petch/ChakraPetch-Light.ttf" id="1_nbfpw"]
+
+[resource]
+font = ExtResource("1_nbfpw")
+font_size = 14
+font_color = Color(0.96224576, 0.93609434, 0.9761061, 1)

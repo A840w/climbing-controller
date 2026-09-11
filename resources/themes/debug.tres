@@ -1,0 +1,37 @@
+[gd_resource type="Theme" format=3 uid="uid://cyqsq61qtws5s"]
+
+[ext_resource type="FontFile" uid="uid://b5a52rsgsqf7e" path="res://font/Chakra_Petch/ChakraPetch-Light.ttf" id="1_frxe4"]
+[ext_resource type="FontFile" uid="uid://7hmwcnxm1jlh" path="res://font/Chakra_Petch/ChakraPetch-Medium.ttf" id="1_r8d5r"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_25h3d"]
+bg_color = Color(0.08235294, 0.08235294, 0.08235294, 0.80784315)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ifkhq"]
+bg_color = Color(0.3647059, 0.22745098, 0.6117647, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_sm0j5"]
+bg_color = Color(0.3647059, 0.22745098, 0.6117647, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_stv80"]
+bg_color = Color(0.3647059, 0.22745098, 0.6117647, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_frxe4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3yxrf"]
+bg_color = Color(0.19607843, 0.19607843, 0.19607843, 0.2627451)
+
+[resource]
+CheckBox/font_sizes/font_size = 14
+CheckBox/fonts/font = ExtResource("1_frxe4")
+FoldableContainer/fonts/font = ExtResource("1_r8d5r")
+FoldableContainer/styles/panel = SubResource("StyleBoxFlat_25h3d")
+FoldableContainer/styles/title_collapsed_panel = SubResource("StyleBoxFlat_ifkhq")
+FoldableContainer/styles/title_hover_panel = SubResource("StyleBoxFlat_sm0j5")
+FoldableContainer/styles/title_panel = SubResource("StyleBoxFlat_stv80")
+HSeparator/styles/separator = SubResource("StyleBoxLine_frxe4")
+Panel/styles/panel = SubResource("StyleBoxFlat_3yxrf")

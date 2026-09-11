@@ -4,8 +4,9 @@ class_name ClimbInitializeState
 @export var player: Player
 
 func _enter() -> void:
+	pass
 	# Zero out velocity upon latching onto wall
-	player.velocity = Vector3.ZERO
+	#player.velocity = Vector3.ZERO
 
 func _update(_delta: float) -> void:
 	# In full mechanics, you'd wait for wall-snap alignment / animations here.

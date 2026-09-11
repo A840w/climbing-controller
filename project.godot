@@ -22,8 +22,14 @@ CardinalSystem="*uid://dyedtjy5ce6st"
 SignalVan="*uid://bcyl1mdc237bu"
 TimeManager="*uid://dli2g1vw7umma"
 
+[debug]
+
+gdscript/warnings/untyped_declaration=1
+
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 

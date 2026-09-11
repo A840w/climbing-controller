@@ -29,7 +29,7 @@ var current_heading: String = ""
 #endregion
 
  #region movement related functiond
-func _unhandled_input(event)->void:
+func _unhandled_input(event )->void:
 	if Input.mouse_mode != Input.MOUSE_MODE_CAPTURED:
 		if event is InputEventKey:
 			if event.is_action_pressed("ui_cancel"):
@@ -69,7 +69,7 @@ func _physics_process(_delta: float) -> void:
 	var input_dir := Input.get_vector("left", "right", "front", "back")
 	move_dir = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
 	#pos_label.text = str(movement_component.player.velocity)
-	var vel = self.velocity
+	var vel : Vector3 = self.velocity
 	pos_label.text = "Velocity: (" + String.num(vel.x, 2) + ", " + String.num(vel.y, 2) + ", " + String.num(vel.z, 2) + ")"
 	move_and_slide()
 
@@ -80,7 +80,7 @@ func _physics_process(_delta: float) -> void:
 
 func update_heading_display() -> void:
 	if current_direction.length() > 0.1:  # Avoid zero vector
-		var heading = CardinalSystem.get_continuous_heading(current_direction)
+		var heading : String = CardinalSystem.get_continuous_heading(current_direction)
 		# If you have a label reference:
 		heading_label.text = heading
 		#print("Direction: ", current_direction, " Heading: ", heading)
@@ -89,7 +89,7 @@ func update_heading_display() -> void:
 
 
 
-func _on_value_update(sway_x, bob_y):
+func _on_value_update(sway_x: float, bob_y: float) -> void:
 	debug_val.text = "X: %s, Y:%s" % [sway_x, bob_y]
 
 func _on_time_changed(h: int, m: int, _s: int, _total: float) -> void:

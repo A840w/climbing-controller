@@ -1,0 +1,58 @@
+[gd_scene format=3 uid="uid://q8g3onboiya8"]
+
+[ext_resource type="LabelSettings" uid="uid://c7ak7k6u022g5" path="res://resources/label/debug.tres" id="2_ifkhq"]
+[ext_resource type="Theme" uid="uid://cyqsq61qtws5s" path="res://resources/themes/debug.tres" id="3_25h3d"]
+
+[node name="debug" type="Control" unique_id=529971557]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1926545123]
+
+[node name="FoldableContainer" type="FoldableContainer" parent="CanvasLayer" unique_id=704012106]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -351.0
+offset_bottom = 78.0
+grow_horizontal = 0
+theme = ExtResource("3_25h3d")
+title = "day Night Cycle debug"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/FoldableContainer" unique_id=2011094007]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/FoldableContainer/VBoxContainer" unique_id=1455724936]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/FoldableContainer/VBoxContainer/HBoxContainer" unique_id=823243420]
+layout_mode = 2
+text = "toggle time "
+label_settings = ExtResource("2_ifkhq")
+
+[node name="CheckBox" type="CheckBox" parent="CanvasLayer/FoldableContainer/VBoxContainer/HBoxContainer" unique_id=767422384]
+layout_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="CanvasLayer/FoldableContainer/VBoxContainer" unique_id=723458143]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/FoldableContainer/VBoxContainer" unique_id=1365122113]
+layout_mode = 2
+text = "test"
+label_settings = ExtResource("2_ifkhq")
+
+[node name="Panel" type="Panel" parent="CanvasLayer" unique_id=453189673]
+visible = false
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -350.0
+offset_top = 2.0
+offset_bottom = 403.0
+grow_horizontal = 0
+theme = ExtResource("3_25h3d")

@@ -4,8 +4,13 @@
 [ext_resource type="PackedScene" uid="uid://bqiu2mvy5dkel" path="res://player/player.tscn" id="1_37kl0"]
 [ext_resource type="Script" uid="uid://b5r0jbauo6gxh" path="res://globals/world_manager.gd" id="1_ppyta"]
 [ext_resource type="Material" uid="uid://3j4x2h0bup2t" path="res://materials/texture_04_white.tres" id="4_ppyta"]
+[ext_resource type="Script" uid="uid://c0r5nienvn4hf" path="res://player/camera/camerapivot_3d.gd" id="5_00tp4"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="6_ehkex"]
 [ext_resource type="Script" uid="uid://q7rngbm3b4k5" path="res://test/climate.gd" id="6_g14j6"]
 [ext_resource type="Texture2D" uid="uid://dm0rivuljrwix" path="res://textures/texture_05.png" id="6_vbegm"]
+[ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="8_xersf"]
+[ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="9_00tp4"]
+[ext_resource type="PackedScene" uid="uid://q8g3onboiya8" path="res://debug/debug.tscn" id="11_77dp3"]
 
 [sub_resource type="PhysicalSkyMaterial" id="PhysicalSkyMaterial_g14j6"]
 rayleigh_coefficient = 2.5
@@ -24,7 +29,6 @@ process_mode = 3
 background_mode = 2
 sky = SubResource("Sky_6uqi0")
 tonemap_mode = 3
-glow_enabled = true
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_ykrsh"]
 
@@ -44,10 +48,19 @@ albedo_texture = ExtResource("6_vbegm")
 radius = 0.2
 height = 0.2
 
+[sub_resource type="Resource" id="Resource_77dp3"]
+script = ExtResource("9_00tp4")
+
 [node name="Node3D" type="Node3D" unique_id=550919651 node_paths=PackedStringArray("debug_camera", "fps_camera")]
 script = ExtResource("1_ppyta")
-debug_camera = NodePath("player/Camera3D")
+debug_camera = NodePath("Camera3D")
 fps_camera = NodePath("player/head/CameraPivot/Camera3D")
+
+[node name="daynightcycle" type="Node3D" parent="." unique_id=1236898596 node_paths=PackedStringArray("sun", "moon", "world_environment")]
+script = ExtResource("6_g14j6")
+sun = NodePath("../DirectionalLight3D")
+moon = NodePath("../DirectionalLight3D2")
+world_environment = NodePath("../WorldEnvironment")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1088878005]
 transform = Transform3D(0.48980534, 0.052654404, -0.8702401, 0.8567345, 0.15588498, 0.49163625, 0.16154423, -0.98637074, 0.031242419, 0, 0, 0)
@@ -59,7 +72,6 @@ environment = SubResource("Environment_ppyta")
 camera_attributes = SubResource("CameraAttributesPhysical_ykrsh")
 
 [node name="floor" type="CSGBox3D" parent="." unique_id=2130684567]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5120573, 0)
 material_override = ExtResource("1_6uqi0")
 use_collision = true
 size = Vector3(100, 1, 100)
@@ -116,20 +128,26 @@ use_collision = true
 [node name="player" parent="." unique_id=334747435 instance=ExtResource("1_37kl0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2050276, 0)
 
-[node name="Camera3D" type="Camera3D" parent="player" unique_id=98978828]
-transform = Transform3D(0.9972501, 0.035645947, -0.06497398, 0, 0.87672675, 0.48098877, 0.074109726, -0.47966608, 0.8743158, -0.74497443, 8.839898, 16.057686)
+[node name="camerapivot3d" type="Node3D" parent="player" unique_id=902065291]
+transform = Transform3D(1, 0, 0, 0, 0.9921217, 0.12527794, 0, -0.12527794, 0.9921217, -0.25736403, 1.1690202, 6.238675)
+script = ExtResource("5_00tp4")
+
+[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="." unique_id=2061041895]
+visible = false
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=98978828]
+physics_interpolation_mode = 1
+transform = Transform3D(0.9975641, 0.0036507745, -0.06966087, 0.008738947, 0.98422146, 0.17672518, 0.06920691, -0.17690346, 0.98179203, -0.3270249, 3.550773, 7.220467)
+top_level = true
 attributes = SubResource("CameraAttributesPhysical_ppyta")
 current = true
 fov = 20.919819
 
-[node name="daynightcycle" type="Node3D" parent="." unique_id=1236898596 node_paths=PackedStringArray("sun", "moon", "world_environment")]
-script = ExtResource("6_g14j6")
-sun = NodePath("../DirectionalLight3D")
-moon = NodePath("../DirectionalLight3D2")
-world_environment = NodePath("../WorldEnvironment")
-
-[node name="DirectionalLight3D2" type="DirectionalLight3D" parent="." unique_id=2061041895]
-sky_mode = 1
+[node name="PhantomCameraHost" type="Node" parent="Camera3D" unique_id=895141787]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("6_ehkex")
+metadata/_custom_type_script = "uid://bd046eokvcnu2"
 
 [node name="holds" type="Node3D" parent="." unique_id=2017018276]
 
@@ -162,5 +180,20 @@ mesh = SubResource("SphereMesh_8lcvq")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -28.414951, 2.6133497, -0.062244058)
 material_override = SubResource("StandardMaterial3D_ehkex")
 mesh = SubResource("SphereMesh_8lcvq")
+
+[node name="PhantomCamera3D" type="Node3D" parent="." unique_id=1081252048 node_paths=PackedStringArray("follow_target")]
+transform = Transform3D(0.9975641, 0.0036507745, -0.06966087, 0.008738947, 0.98422146, 0.17672518, 0.06920691, -0.17690346, 0.98179203, -0.3270249, 3.550773, 7.220467)
+script = ExtResource("8_xersf")
+follow_mode = 6
+follow_target = NodePath("../player/camerapivot3d")
+tween_resource = SubResource("Resource_77dp3")
+vertical_rotation_offset = 0.05235987755982989
+horizontal_rotation_offset = 0.06981317007977318
+align_transform_with_view = Callable()
+align_position_with_view = Callable()
+align_rotation_with_view = Callable()
+metadata/_custom_type_script = "uid://csjccrhj5wnx7"
+
+[node name="debug" parent="." unique_id=529971557 instance=ExtResource("11_77dp3")]
 
 [editable path="player"]
