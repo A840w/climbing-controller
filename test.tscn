@@ -29,8 +29,12 @@ process_mode = 3
 background_mode = 2
 sky = SubResource("Sky_6uqi0")
 tonemap_mode = 3
+glow_enabled = true
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_ykrsh"]
+
+[sub_resource type="Compositor" id="Compositor_ykrsh"]
+compositor_effects = Array[CompositorEffect]([null])
 
 [sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_ppyta"]
 exposure_sensitivity = 50.0
@@ -70,6 +74,7 @@ directional_shadow_blend_splits = true
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=898836775]
 environment = SubResource("Environment_ppyta")
 camera_attributes = SubResource("CameraAttributesPhysical_ykrsh")
+compositor = SubResource("Compositor_ykrsh")
 
 [node name="floor" type="CSGBox3D" parent="." unique_id=2130684567]
 material_override = ExtResource("1_6uqi0")
